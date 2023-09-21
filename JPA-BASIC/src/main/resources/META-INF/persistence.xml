@@ -10,10 +10,16 @@
 
         <properties>
             <!--            propiedades de la configuracion de JDBC para MSQL-->
+<!--            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />-->
+<!--            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/arqui_tp1ej5" />-->
+<!--            <property name="javax.persistence.jdbc.user" value="root" />-->
+<!--            <property name="javax.persistence.jdbc.password" value="" />-->
+
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/arqui_tp1ej5" />
             <property name="javax.persistence.jdbc.user" value="root" />
             <property name="javax.persistence.jdbc.password" value="" />
+
 
             <!--            propiedades para la generacion automática de esquemas en la BD-->
             <property name="hibernate.hbm2ddl.auto" value="update" />
