@@ -1,3 +1,5 @@
+package querys;
+
 import dao.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

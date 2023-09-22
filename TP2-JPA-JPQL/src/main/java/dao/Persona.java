@@ -1,9 +1,11 @@
 package dao;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
-*Vamos a decirle que esta clase es una tabla con la palabara @entity*/
+ *Vamos a decirle que esta clase es una tabla con la palabara @entity*/
 @Entity
 public class Persona {
     //esta persona va a tener un id
@@ -11,21 +13,23 @@ public class Persona {
     private int id;
     //Marcamos las columnas de la BD
     /*
-    *Le indicamos que no puede ser nulleable */
+     *Le indicamos que no puede ser nulleable */
     @Column(nullable = false)
     private String nombre;
     /*
-    * Podemos decirle que esta columna en la BD se llama años con Column(name = "nuevo nombre")
-    */
-    @Column(name="anios")
+     * Podemos decirle que esta columna en la BD se llama años con Column(name = "nuevo nombre")
+     */
+    @Column(name = "anios")
     private int edad;
 
     /*
-    *Indicamos en la relacion que muchas personas puedan vivir en un mismo domicilio pero no puede vivir en dos lugares distitnos
+     *Indicamos en la relacion que muchas personas puedan vivir en un mismo domicilio pero no puede vivir en dos lugares distitnos
      */
     @ManyToOne
     private Direccion domicilio;
 
+    @ManyToMany(mappedBy = "jugadores", fetch = FetchType.LAZY)
+    private List<Turno> turnos;
 
     public Persona(int id, String nombre, int edad, Direccion domicilio) {
         this.id = id;
@@ -62,8 +66,8 @@ public class Persona {
         this.domicilio = domicilio;
     }
 
-    public Persona(){
-
+    public Persona() {
+        this.turnos = new ArrayList<Turno>();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package dao;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Direccion {
@@ -12,8 +14,15 @@ public class Direccion {
     private String ciudad;
     @Column
     private String calle;
+    /*
+     *Una direccion puede ir con multiples personas.
+     *Todas las relaciones q se mapean a listo tienen un Fetchtype.lazy
+     * Hasta que no pidamso algo relacionado con esta list, no se va a hacer el FECTH pq es muy costosos */
+    @OneToMany(mappedBy = "domicilio", fetch = FetchType.LAZY)
+    private List<Persona> habitantes;
 
     public Direccion() {
+        this.habitantes = new ArrayList<Persona>();
     }
 
     public Direccion(String ciudad, String calle) {
