@@ -4,6 +4,8 @@ import dao.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.io.FileReader;
+
 public class Insert {
     public static void main(String[] args) {
         /*
@@ -12,6 +14,12 @@ public class Insert {
         // le decimso a emf que ahora si nso cree un EntityManager
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
+
+        CSVParser parserProductos = CSVFormat.DEFAULT.withHeader().parse(new FileReader("src/main/java/csv/productos.csv"));
+        for (CSVRecord row : parserProductos) {
+            InterfaceProductoDAO newProducto = new MySQLProductoDAO(parseInt(row.get("idProducto")), row.get("nombre"), parseFloat(row.get("valor")));
+            mySQLProductoDAO.insert(newProducto);
+        }
 
         //CREANDO DIRECCIONES
         Direccion d1 = new Direccion("Olavarria","Rufino Fal 2214");
