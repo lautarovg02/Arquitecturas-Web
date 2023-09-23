@@ -7,6 +7,7 @@ import java.util.List;
 /*
  *Vamos a decirle que esta clase es una tabla con la palabara @entity*/
 @Entity
+@NamedQuery(name = Persona.BUSCAR_TODAS, query = "SELECT p FROM Persona p")
 public class Persona {
     //esta persona va a tener un id
     @Id
@@ -30,6 +31,8 @@ public class Persona {
 
     @ManyToMany(mappedBy = "jugadores", fetch = FetchType.LAZY)
     private List<Turno> turnos;
+    public static final String BUSCAR_TODAS = "Persona.buscarTodas";
+    public static final String BUSCAR_POR_ID = "Persona.buscarPorId";
 
     public Persona(int id, String nombre, int edad, Direccion domicilio) {
         this.id = id;
