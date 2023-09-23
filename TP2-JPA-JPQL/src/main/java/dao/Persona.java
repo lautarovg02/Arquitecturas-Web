@@ -38,6 +38,12 @@ public class Persona {
         this.domicilio = domicilio;
     }
 
+    public Persona(int id, String nombre, int edad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
     public int getId() {
         return id;
     }

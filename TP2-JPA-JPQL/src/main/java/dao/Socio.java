@@ -1,44 +1,23 @@
 package dao;
-
 import javax.persistence.*;
 
 @Entity
 public class Socio {
     @Id
     private int id;
-
-    /*
-     * Relacion Socio-Persona
-     * Con el maps id indiciamos que es PK y FK */
+    @Column(nullable = false)
+    private String tipo;
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     private Persona persona;
-    @Column
-    private String tipo;
 
+    //    --------------------------------------------------------------------------------------------------------------------
     public Socio() {
     }
-
-    public Socio(int id, Persona persona, String tipo) {
-        this.id = id;
-        this.persona = persona;
+    public Socio(String tipo, Persona persona) {
         this.tipo = tipo;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Persona getPersona() {
-        return persona;
-    }
-
-    public void setPersona(Persona persona) {
         this.persona = persona;
+
     }
 
     public String getTipo() {
@@ -49,12 +28,19 @@ public class Socio {
         this.tipo = tipo;
     }
 
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
     @Override
     public String toString() {
-        return "\nSocio{" +
-                "id=" + id +
+        return "Socio{" +
+                "tipo='" + tipo + '\'' +
                 ", persona=" + persona +
-                ", tipo='" + tipo + '\'' +
                 '}';
     }
 }
