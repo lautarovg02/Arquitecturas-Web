@@ -18,6 +18,18 @@ public class Turno {
     public Turno() {
     }
 
+    public Turno(Timestamp fecha, List<Persona> jugadores) {
+        this.fecha = fecha;
+        this.jugadores = jugadores;
+    }
+
+    public Turno(int id, Timestamp fecha) {
+        this.id = id;
+        this.fecha = fecha;
+        this.jugadores = new ArrayList<Persona>();
+    }
+
+
     public int getId() {
         return id;
     }
