@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQuery(name = Turno.OBTENER_PERSONAS_DE_UN_TURNO, query = "SELECT t.jugadores FROM Turno t WHERE t.id = ?1")
 public class Turno {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +16,7 @@ public class Turno {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Persona> jugadores;
 
+    public static final String OBTENER_PERSONAS_DE_UN_TURNO = "Turno.OBTENER_PERSONAS_DE_UN_TURNO";
     public Turno() {
     }
 
