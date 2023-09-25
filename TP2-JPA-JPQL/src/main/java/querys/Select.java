@@ -14,14 +14,6 @@ public class Select {
         //CONEXION A LA BD
         em.getTransaction().begin();
 
-        //EJERCICIO 2-A
-        String jpql2A = Turno.OBTENER_PERSONAS_DE_UN_TURNO;
-        int idTurn = 107;
-        Query query2a = em.createNamedQuery(jpql2A);
-        query2a.setParameter(1, idTurn);
-        List<Persona> players = query2a.getResultList();
-        players.forEach(System.out::println);
-
 
 
         //CERRANDO LA CONEXION

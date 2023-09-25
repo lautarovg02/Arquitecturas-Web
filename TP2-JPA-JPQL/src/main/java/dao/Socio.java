@@ -1,7 +1,10 @@
 package dao;
+import jdk.jfr.Name;
+
 import javax.persistence.*;
 
 @Entity
+
 public class Socio {
     @Id
     private int id;
@@ -10,8 +13,9 @@ public class Socio {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     private Persona persona;
+    public static final String OBTENER_SOCIOS = "SELECT s FROM Socio s";
+    public static final String SOCIO_SUSPENDIDO = "suspendido";
 
-    //    --------------------------------------------------------------------------------------------------------------------
     public Socio() {
     }
     public Socio(String tipo, Persona persona) {
