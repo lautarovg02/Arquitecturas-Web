@@ -1,5 +1,6 @@
 package querys;
 
+import dao.Direccion;
 import dao.Persona;
 import dao.Socio;
 import dao.Turno;
@@ -39,6 +40,14 @@ public class Ejercicio2 {
             }
             System.out.println(p);
         }
+
+        //EJERCICIO 2-C
+        String jpql2c = Direccion.OBTENER_PERSONAS_DE_UNA_CIUDAD;
+        String city = "Olavarria";
+        Query query2c = em.createNamedQuery(jpql2c);
+        query2c.setParameter(1,city);
+        List<Persona> population = query2c.getResultList();
+        population.forEach(System.out::println);
 
         //CERRANDO LA CONEXION
         em.getTransaction().commit();

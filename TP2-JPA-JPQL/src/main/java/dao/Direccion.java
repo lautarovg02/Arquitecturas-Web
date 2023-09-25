@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQuery(name = Direccion.OBTENER_PERSONAS_DE_UNA_CIUDAD, query = "SELECT d.habitantes FROM Direccion d WHERE UPPER(d.ciudad) = UPPER(?1) ")
 public class Direccion {
     @Id
     //Indicamos que el id sea AUTO-INCREMENT
@@ -20,6 +21,7 @@ public class Direccion {
      * Hasta que no pidamso algo relacionado con esta list, no se va a hacer el FECTH pq es muy costosos */
     @OneToMany(mappedBy = "domicilio", fetch = FetchType.LAZY)
     private List<Persona> habitantes;
+    public static final String OBTENER_PERSONAS_DE_UNA_CIUDAD = "Direccion.OBTENER_PERSONAS_DE_UNA_CIUDAD";
 
     public Direccion() {
         this.habitantes = new ArrayList<Persona>();
