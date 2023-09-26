@@ -1,20 +1,29 @@
 package dao;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQuery( name = Torneo.BUSCAR_TODOS, query = "SELECT t FROM Torneo t ")
 public class Torneo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String nombre;
+    public static final String BUSCAR_TODOS = "Torneo.BUSCAR_TODOS";
 
     @Column(name = "clasificados")
     @OneToMany(mappedBy = "torneo", fetch = FetchType.LAZY)
     private List<Equipo> equipos;
 
+    public Torneo(String nombre) {
+        this.nombre = nombre;
+    }
+    public Torneo(){
+        this.equipos = new ArrayList<>();
+    }
 
     public int getId() {
         return id;
@@ -41,7 +50,6 @@ public class Torneo {
         return "Torneo{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
-                ", equipos=" + equipos +
                 '}';
     }
 }

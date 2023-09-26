@@ -11,6 +11,7 @@ public class DirectorTecnico extends Persona {
     @ManyToOne
     private Equipo equipo;
 
+    public static final String OBTENER_PRIMER_TECNICO_SIN_CLUB = "SELECT d FROM DirectorTecnico d WHERE d.equipo IS NULL ORDER BY d.id";
     public DirectorTecnico(int id,String nombre, int edad, String estrategia) {
         super(id,nombre, edad);
         this.estrategia = estrategia;
