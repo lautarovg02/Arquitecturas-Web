@@ -8,11 +8,10 @@ import java.util.List;
 @NamedQuery(name = Posicion.BUSCAR_POSICION_POR_TIPO, query = "SELECT p FROM Posicion p WHERE p.id = ?1")
 public class Posicion {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String tipo;
-    @OneToMany(mappedBy = "posicion",fetch = FetchType.LAZY)// Esta es la relación inversa desde Jugador
+    @OneToMany(fetch = FetchType.LAZY)// Esta es la relación inversa desde Jugador
     private List<Jugador> jugadores;// Relation con el jugador que ocupa esta posición
     public static final String BUSCAR_POSICION_POR_TIPO = "Posicion.BUSCAR_POSICION_POR_TIPO";
     public static final String TIPO_ARQUERO = "arquero";
@@ -22,6 +21,11 @@ public class Posicion {
 
     public Posicion() {
         this.jugadores = new ArrayList<>();
+    }
+
+    public Posicion(int i, String tipo) {
+        this.id = i;
+        this.tipo = tipo;
     }
 
     public int getId() {

@@ -15,7 +15,7 @@ public class Torneo {
     public static final String BUSCAR_TODOS = "Torneo.BUSCAR_TODOS";
 
     @Column(name = "clasificados")
-    @OneToMany(mappedBy = "torneo", fetch = FetchType.LAZY)
+    @ManyToMany( fetch = FetchType.LAZY)
     private List<Equipo> equipos;
 
     public Torneo(String nombre) {
@@ -23,6 +23,10 @@ public class Torneo {
     }
     public Torneo(){
         this.equipos = new ArrayList<>();
+    }
+
+    public void addEquipo(Equipo e){
+        this.equipos.add(e);
     }
 
     public int getId() {

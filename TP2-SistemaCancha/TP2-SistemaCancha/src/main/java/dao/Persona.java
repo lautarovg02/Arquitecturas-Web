@@ -3,16 +3,19 @@ package dao;
 import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="persona_tipo",
+        discriminatorType = DiscriminatorType.STRING)
 public class Persona {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(nullable = false)
     private String nombre;
     @Column
     private int edad;
 
-    public Persona(int id, String nombre, int edad) {
-        this.id = id;
+    public Persona( String nombre, int edad) {
         this.nombre = nombre;
         this.edad = edad;
     }

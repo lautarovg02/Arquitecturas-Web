@@ -27,34 +27,38 @@ public class Insert {
         // CONEXION
         em.getTransaction().begin();
 
+        //ADDING POSITIONS
+        addPositions();
+        List<Posicion> positions = em.createQuery("SELECT p FROM Posicion p").getResultList();
+        positions.forEach(System.out::println);
+
         //ADDING COACH
-//        addCoach();
-//        List<DirectorTecnico> coachs = em.createQuery("SELECT d FROM DirectorTecnico d").getResultList();
-//        coachs.forEach(System.out::println);
-//
-////        ADDING POSITIONS
-////        addPositions();
-//        List<Posicion> positions = em.createQuery("SELECT p FROM Posicion p").getResultList();
-//        positions.forEach(System.out::println);
-//
-//
-//        //ADDING PLAYERS
-////        addPlayers();
-//        List<Jugador> players = em.createQuery("SELECT j FROM Jugador j").getResultList();
-//        players.forEach(System.out::println);
+        addCoach();
+        List<DirectorTecnico> coachs = em.createQuery("SELECT d FROM DirectorTecnico d").getResultList();
+        coachs.forEach(System.out::println);
+
+        //ADDING PLAYERS
+        addPlayers();
+        List<Jugador> players = em.createQuery("SELECT j FROM Jugador j").getResultList();
+        players.forEach(System.out::println);
 
         //ADDING TOURNAMENT
-//        addTournaments();
+        addTournaments();
         List<Torneo> tournaments = em.createQuery("SELECT t FROM Torneo t").getResultList();
         tournaments.forEach(System.out::println);
-        //ADDING TEAMS
 
-        // SEND TRANSACTION
-        em.getTransaction().commit();
+        //ADDING TEAMS
+        addTeams();
+        List<Equipo> equipos = em.createQuery("SELECT p FROM Equipo p").getResultList();
+        equipos.forEach(System.out::println);
 
         // CLOSE
+        em.getTransaction().commit();
         em.close();
         emf.close();
+    }
+    private static List<DirectorTecnico> getTecnico(){
+        return em.createQuery("SELECT j FROM Jugador j").getResultList();
     }
 
     private static void addTournaments() {
@@ -66,7 +70,7 @@ public class Insert {
             em.persist(t);
             System.out.print(".");
         }
-        System.out.print(" .....................PROCESO FINALIZADO ");
+        System.out.print(" .....................PROCESO FINALIZADO \n");
 
     }
 
@@ -95,7 +99,18 @@ public class Insert {
             t = getTournamentById(Integer.parseInt(row.get("torneo_id")));
             titulares = getTitularPlayers();
             suplentes = getSubstitutePlayers();
-            e = new Equipo(row.get("nombre"),row.get("publicidad"),dt,t,titulares,suplentes);
+            dt.setEquipo(e);
+            e = new Equipo(row.get("nombre"),row.get("publicidad"),dt);
+            t.addEquipo(e);
+            em.merge(e);
+            for (Jugador j : titulares){
+                j.setEquipo(e);
+                em.merge(j);
+            }
+            for (Jugador j : suplentes){
+                j.setEquipo(e);
+                em.merge(j);
+            }
             em.persist(e);
 
         }
@@ -158,12 +173,13 @@ public class Insert {
         Posicion p = null;
         System.out.print("Cargando posiciones .....................");
         CSVParser parser = getCSVParser(POSITION_FILE);
+        int i = 0;
         for (CSVRecord row : parser) {
-            p = new Posicion(row.get("tipo"));
+            p = new Posicion(i,row.get("tipo"));
             em.persist(p);
             System.out.print(".");
         }
-        System.out.print(" .....................PROCESO FINALIZADO ");
+        System.out.print(" .....................PROCESO FINALIZADO \n ");
 
     }
 
@@ -176,16 +192,15 @@ public class Insert {
         Posicion p = null;
         System.out.print("Cargando jugadores .....................");
         CSVParser parser = getCSVParser(PLAYERS_FILE);
-        int i = 20;
+        List<DirectorTecnico> dt = getTecnico();
         for (CSVRecord row : parser) {
             p = getPositionById(Integer.parseInt(row.get("posicion_id")));
-            j = new Jugador(i, row.get("nombre"), Integer.parseInt(row.get("edad")), p);
-            i++;
+            j = new Jugador(row.get("nombre"), Integer.parseInt(row.get("edad")), p);
             System.out.println(j);
             em.persist(j);
             System.out.print(".");
         }
-        System.out.print(" .....................PROCESO FINALIZADO ");
+        System.out.print(" .....................PROCESO FINALIZADO \n");
 
     }
 
@@ -193,14 +208,12 @@ public class Insert {
         DirectorTecnico dt = null;
         System.out.print("Cargando DTs .....................");
         CSVParser parser = getCSVParser(COACH_FILE);
-        int i = 0;
         for (CSVRecord row : parser) {
-            dt = new DirectorTecnico(i, row.get("nombre"), Integer.parseInt(row.get("edad")), row.get("estrategia"));
-            i++;
+            dt = new DirectorTecnico(row.get("nombre"), Integer.parseInt(row.get("edad")), row.get("estrategia"));
             em.persist(dt);
             System.out.print(".");
         }
-        System.out.print(" .....................PROCESO FINALIZADO ");
+        System.out.print(" .....................PROCESO FINALIZADO\n ");
 
     }
 

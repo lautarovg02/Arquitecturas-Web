@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @NamedQuery(name = Jugador.BUSCAR_TODOS, query = "SELECT j FROM Jugador j WHERE j.equipo IS NULL")
+@DiscriminatorValue("Jugador")
 public class Jugador extends Persona {
     @ManyToOne
     private Posicion posicion;
@@ -11,8 +12,8 @@ public class Jugador extends Persona {
     private Equipo equipo;
     public static final String OBTENER_PRIMER_ARQUERO_SIN_CLUB = "SELECT j FROM Jugador j WHERE j.equipo IS NULL AND j.posicion = 4 ORDER BY j.id";
     public static final String BUSCAR_TODOS = "Jugador.BUSCAR_TODOS";
-    public Jugador(int id,String nombre, int edad, Posicion posicion) {
-        super(id,nombre, edad);
+    public Jugador(String nombre, int edad, Posicion posicion) {
+        super(nombre, edad);
         this.posicion = posicion;
     }
 

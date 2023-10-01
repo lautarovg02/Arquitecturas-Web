@@ -1,21 +1,21 @@
 nombre,publicidad,directorTecnico_id,torneo_id
-FC Barcelona,Nike,1,8
-Real Madrid,Adidas,2,9
-Manchester United,Coca-Cola,3,8
-Liverpool,Mastercard,4,9
-Paris Saint-Germain (PSG),Pepsi,5,8
-Bayern Munich,Amazon,6,9
-Juventus,T-Mobile,7,8
-AC Milan,Samsung,8,9
-Borussia Dortmund,McDonald's,9,8
-Chelsea,Toyota,10,9
-Arsenal,Microsoft,11,8
-Inter de Milán,Puma,12,9
-Atletico de Madrid,Budweiser,13,8
-Manchester City,Verizon,14,9
-AS Roma,Visa,15,8
-Tottenham Hotspur,PepsiCo,16,9
-Boca Juniors,Quilmes,17,8
-River Plate,Gillette,18,9
-Flamengo,Adidas,19,8
-Santos FC,Honda,0,9
+FC Barcelona,Nike,1,6
+Real Madrid,Adidas,2,7
+Manchester United,Coca-Cola,3,6
+Liverpool,Mastercard,4,7
+Paris Saint-Germain (PSG),Pepsi,5,6
+Bayern Munich,Amazon,6,7
+Juventus,T-Mobile,7,6
+AC Milan,Samsung,8,7
+Borussia Dortmund,McDonald's,9,6
+Chelsea,Toyota,10,7
+Arsenal,Microsoft,11,6
+Inter de Milán,Puma,12,7
+Atletico de Madrid,Budweiser,13,6
+Manchester City,Verizon,14,7
+AS Roma,Visa,15,6
+Tottenham Hotspur,PepsiCo,16,7
+Boca Juniors,Quilmes,17,6
+River Plate,Gillette,18,7
+Flamengo,Adidas,19,6
+Santos FC,Honda,0,7

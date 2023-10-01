@@ -1,11 +1,11 @@
 id,nombre,edad,posicion_id,equipo_id
-David García,24,1,3
-María Rodríguez,29,2,3
-Andrés López,26,3,3
-Sofía Martínez,22,4,4
-Roberto Pérez,25,1,4
-Isabel González,28,2,4
-Luis Fernández,27,3,5
+8,David García,24,1,3
+9,María Rodríguez,29,2,3
+10,Andrés López,26,3,3
+11,Sofía Martínez,22,4,4
+12,Roberto Pérez,25,1,4
+13,Isabel González,28,2,4
+14,Luis Fernández,27,3,5
 15,Ana Ruiz,23,1,5
 16,Francisco Sánchez,30,2,5
 17,Elena Martínez,24,4,6
