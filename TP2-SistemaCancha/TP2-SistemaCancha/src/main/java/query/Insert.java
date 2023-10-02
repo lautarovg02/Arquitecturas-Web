@@ -26,9 +26,12 @@ public class Insert {
     public static void main(String[] args) {
         // CONEXION
         em.getTransaction().begin();
+        /*
+        * AGREGAR ENTIDADES:
+        * A la hora de ejecutar los metodos, priorize ejecutar de a uno cada metodo si no se rompera */
 
         //ADDING POSITIONS
-//        addPositions();
+        addPositions();
         List<Posicion> positions = em.createQuery("SELECT p FROM Posicion p").getResultList();
         positions.forEach(System.out::println);
 
