@@ -5,6 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+//SELECT p FROM Equipo p
+@NamedQuery(name = Equipo.BUSCAR_TODOS,
+            query = "SELECT p FROM Equipo p"
+)
+@NamedQuery(
+        name = Equipo.BUSCAR_JUGADORES_DE_UN_EQUIPO,
+        query = "SELECT j.nombre FROM Equipo e JOIN Jugador j ON e.id = j.equipo.id WHERE e.nombre = ?1"
+)
+
 public class Equipo {
 
     @Id
@@ -16,6 +25,8 @@ public class Equipo {
     private String publicidad;
     @ManyToOne
     private DirectorTecnico directorTecnico;
+    public static final String BUSCAR_JUGADORES_DE_UN_EQUIPO = "Equipo.BUSCAR_JUGADORES_DE_UN_EQUIPO";
+    public static final String BUSCAR_TODOS = "Equipo.BUSCAR_TODOS";
 
     @OneToMany(mappedBy = "equipo", fetch = FetchType.LAZY)
     private List<Jugador> jugadores;
@@ -85,19 +96,19 @@ public class Equipo {
                 ", nombre='" + nombre + '\'' +
                 ", publicidad='" + publicidad + '\'' +
                 ", directorTecnico=" + directorTecnico.getNombre() +
-                ", jugadores=" + listaToString(jugadores) +
-                ", suplentes=" + listaToString(suplentes) +
+//                ", jugadores=" + listaToString(jugadores) +
+//                ", suplentes=" + listaToString(suplentes) +
                 '}';
     }
 
-    private String listaToString(List<?> lista) {
+    private String listaToString(List<Jugador> lista) {
         if (lista == null) {
             return "null";
         }
 
         StringBuilder result = new StringBuilder("[");
         for (int i = 0; i < lista.size(); i++) {
-            result.append(lista.get(i).toString());
+            result.append(lista.get(i).getNombre());
             if (i < lista.size() - 1) {
                 result.append(", ");
             }

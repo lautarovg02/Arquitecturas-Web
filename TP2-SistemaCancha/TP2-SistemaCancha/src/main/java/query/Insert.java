@@ -32,29 +32,18 @@ public class Insert {
 
         //ADDING POSITIONS
         addPositions();
-        List<Posicion> positions = em.createQuery("SELECT p FROM Posicion p").getResultList();
-        positions.forEach(System.out::println);
 
         //ADDING COACH
 //        addCoach();
-        List<DirectorTecnico> coachs = em.createQuery("SELECT d FROM DirectorTecnico d").getResultList();
-        coachs.forEach(System.out::println);
 
         //ADDING PLAYERS
 //        addPlayers();
-        List<Jugador> players = em.createQuery("SELECT j FROM Jugador j").getResultList();
-        players.forEach(System.out::println);
 
         //ADDING TOURNAMENT
 //        addTournaments();
-        List<Torneo> tournaments = em.createQuery("SELECT t FROM Torneo t").getResultList();
-        tournaments.forEach(System.out::println);
 
         //ADDING TEAMS
 //        addTeams();
-        List<Equipo> equipos = em.createQuery("SELECT p FROM Equipo p").getResultList();
-        equipos.forEach(System.out::println);
-//        System.out.println(getRandomTorneo());
 
         // CLOSE
         em.getTransaction().commit();
@@ -136,7 +125,7 @@ public class Insert {
 
     private static List<Jugador> getTitularPlayers(){
         List<Jugador> players, titulars = new ArrayList<>();
-        String query = Jugador.BUSCAR_TODOS;
+        String query = Jugador.BUSCAR_TODOS_SIN_CLUB;
         Query query1 = em.createNamedQuery(query);
         players = query1.getResultList();
         Jugador goalkeeper = getFirstPlayerWithoutAJob();
@@ -153,7 +142,7 @@ public class Insert {
 
     private static List<Jugador> getSubstitutePlayers(){
         List<Jugador> players, substitute = new ArrayList<>();
-        String query = Jugador.BUSCAR_TODOS;
+        String query = Jugador.BUSCAR_TODOS_SIN_CLUB;
         Query query1 = em.createNamedQuery(query);
         players = query1.getResultList();
         Iterator<Jugador> itPlayers = players.iterator();

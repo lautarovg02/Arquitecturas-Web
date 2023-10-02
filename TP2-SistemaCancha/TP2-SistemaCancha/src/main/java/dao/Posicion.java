@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NamedQuery(name = Posicion.BUSCAR_POSICION_POR_TIPO, query = "SELECT p FROM Posicion p WHERE p.id = ?1")
+@NamedQuery(name = Posicion.BUSCAR_TODOS,
+        query = "SELECT p FROM Posicion p"
+)
+@NamedQuery(name = Posicion.BUSCAR_POSICION_POR_TIPO,
+        query = "SELECT p FROM Posicion p WHERE p.id = ?1"
+)
 public class Posicion {
     @Id
     private int id;
@@ -13,6 +18,7 @@ public class Posicion {
     private String tipo;
     @OneToMany(fetch = FetchType.LAZY)// Esta es la relación inversa desde Jugador
     private List<Jugador> jugadores;// Relation con el jugador que ocupa esta posición
+    public static final String BUSCAR_TODOS = "Posicion.BUSCAR_TODOS";
     public static final String BUSCAR_POSICION_POR_TIPO = "Posicion.BUSCAR_POSICION_POR_TIPO";
     public static final String TIPO_ARQUERO = "arquero";
     public Posicion(String tipo) {
