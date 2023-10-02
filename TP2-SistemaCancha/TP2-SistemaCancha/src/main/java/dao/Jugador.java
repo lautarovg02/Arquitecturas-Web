@@ -8,7 +8,7 @@ import javax.persistence.*;
         query = "SELECT j FROM Jugador j"
 )
 @NamedQuery(name = Jugador.BUSCAR_TODOS_SIN_CLUB,
-            query = "SELECT j FROM Jugador j WHERE j.equipo IS NULL"
+        query = "SELECT j FROM Jugador j WHERE j.equipo IS NULL"
 )
 @DiscriminatorValue("Jugador")
 public class Jugador extends Persona {
@@ -18,6 +18,7 @@ public class Jugador extends Persona {
     private Equipo equipo;
     public static final String OBTENER_PRIMER_ARQUERO_SIN_CLUB = "SELECT j FROM Jugador j WHERE j.equipo IS NULL AND j.posicion = 4 ORDER BY j.id";
     public static final String BUSCAR_TODOS = "Jugador.BUSCAR_TODOS", BUSCAR_TODOS_SIN_CLUB = "Jugador.BUSCAR_TODOS_SIN_CLUB";
+
     public Jugador(String nombre, int edad, Posicion posicion) {
         super(nombre, edad);
         this.posicion = posicion;
@@ -54,13 +55,14 @@ public class Jugador extends Persona {
     }
 
     private String getNombreEquipo() {
-        if(this.equipo != null)
+        if (this.equipo != null)
             return this.equipo.getNombre();
         else
             return "null";
     }
+
     private String getTipo() {
-        if(this.posicion != null)
+        if (this.posicion != null)
             return this.posicion.getTipo();
         else
             return "null";

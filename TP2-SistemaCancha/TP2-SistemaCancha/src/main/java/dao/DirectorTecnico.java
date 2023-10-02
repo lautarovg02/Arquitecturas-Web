@@ -54,7 +54,7 @@ public class DirectorTecnico extends Persona {
     }
 
     private String getNombreEquipo() {
-        if(this.equipo != null)
+        if (this.equipo != null)
             return this.equipo.getNombre();
         else
             return "null";

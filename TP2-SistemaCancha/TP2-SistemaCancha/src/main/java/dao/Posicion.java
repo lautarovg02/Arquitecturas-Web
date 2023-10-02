@@ -21,6 +21,7 @@ public class Posicion {
     public static final String BUSCAR_TODOS = "Posicion.BUSCAR_TODOS";
     public static final String BUSCAR_POSICION_POR_TIPO = "Posicion.BUSCAR_POSICION_POR_TIPO";
     public static final String TIPO_ARQUERO = "arquero";
+
     public Posicion(String tipo) {
         this.tipo = tipo;
     }
@@ -62,6 +63,10 @@ public class Posicion {
                 ", tipo='" + tipo + '\'' +
                 ", jugadores=" + jugadores +
                 '}';
+    }
+
+    public void addJugador(Jugador jugador) {
+        this.jugadores.add(jugador);
     }
 }
 

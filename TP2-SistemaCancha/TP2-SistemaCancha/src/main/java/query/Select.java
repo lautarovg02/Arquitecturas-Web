@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Select {
     private static String pathFilesCsv = "./src/main/java/csv/";
-    private static final String  PERSISTENCE_NAME = "TP2-EJER3";
+    private static final String PERSISTENCE_NAME = "TP2-EJER3";
     private static final int MAX_TITULARS_PLAYERS = 7, MAX_SUBSTITUTE_PLAYERS = 2;
     private static final String ARCHER_REQUIREMENT = "Arquero";
     protected static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_NAME);
@@ -45,27 +45,31 @@ public class Select {
         emf.close();
     }
 
+    /***Metodo para mostrar los jugadores de la BD*/
     private static void showPlayers() {
-        String queryString = Jugador.BUSCAR_TODOS ;
+        String queryString = Jugador.BUSCAR_TODOS;
         Query query = em.createNamedQuery(queryString);
         List<Jugador> pos = query.getResultList();
         pos.forEach(System.out::println);
     }
 
+    /***Metodo para mostrar los torneos de la BD*/
     private static void showTournaments() {
-        String queryString = Torneo.BUSCAR_TODOS ;
+        String queryString = Torneo.BUSCAR_TODOS;
         Query query = em.createNamedQuery(queryString);
         List<Torneo> pos = query.getResultList();
         pos.forEach(System.out::println);
     }
 
+    /***Metodo para mostrar las posiciones de la BD*/
     private static void showPositions() {
-        String queryString = Posicion.BUSCAR_TODOS ;
+        String queryString = Posicion.BUSCAR_TODOS;
         Query query = em.createNamedQuery(queryString);
         List<Posicion> pos = query.getResultList();
         pos.forEach(System.out::println);
     }
 
+    /***Metodo para mostrar los jugadores de un equipo determinado  de la BD*/
     private static void showPlayersOfTeamByName(String name) {
         String queryString = Equipo.BUSCAR_JUGADORES_DE_UN_EQUIPO;
         Query query = em.createNamedQuery(queryString);
@@ -75,14 +79,16 @@ public class Select {
         results.forEach(System.out::println);
     }
 
-    private static void showTeams(){
+    /***Metodo para mostrar los equipos de la BD*/
+    private static void showTeams() {
         String queryString = Equipo.BUSCAR_TODOS;
         Query query = em.createNamedQuery(queryString);
         List<Equipo> equipos = query.getResultList();
         equipos.forEach(System.out::println);
     }
 
-    private static void showDts(){
+    /***Metodo para mostrar los tecnicos de la BD*/
+    private static void showDts() {
         String queryString = DirectorTecnico.BUSCAR_TODOS;
         Query query = em.createNamedQuery(queryString);
         List<DirectorTecnico> dts = query.getResultList();

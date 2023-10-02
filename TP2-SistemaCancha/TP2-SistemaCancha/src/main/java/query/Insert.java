@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class Insert {
     private static String pathFilesCsv = "./src/main/java/csv/";
-    private static final String TOURNAMENT_FILE = "Torneo.csv" ,COACH_FILE = "directorTecnico.csv", TEAMS_FILE = "equipo.csv", PLAYERS_FILE = "jugador.csv", POSITION_FILE = "posicion.csv", PERSISTENCE_NAME = "TP2-EJER3";
+    private static final String TOURNAMENT_FILE = "Torneo.csv", COACH_FILE = "directorTecnico.csv", TEAMS_FILE = "equipo.csv", PLAYERS_FILE = "jugador.csv", POSITION_FILE = "posicion.csv", PERSISTENCE_NAME = "TP2-EJER3";
 
     private static final int MAX_TITULARS_PLAYERS = 7, MAX_SUBSTITUTE_PLAYERS = 2;
     private static final String ARCHER_REQUIREMENT = "Arquero";
@@ -27,8 +27,8 @@ public class Insert {
         // CONEXION
         em.getTransaction().begin();
         /*
-        * AGREGAR ENTIDADES:
-        * A la hora de ejecutar los metodos, priorize ejecutar de a uno cada metodo si no se rompera */
+         * AGREGAR ENTIDADES:
+         * A la hora de ejecutar los metodos, priorize ejecutar de a uno cada metodo si no se rompera */
 
         //ADDING POSITIONS
         addPositions();
@@ -50,10 +50,12 @@ public class Insert {
         em.close();
         emf.close();
     }
-    private static List<DirectorTecnico> getTecnico(){
+
+    private static List<DirectorTecnico> getTecnico() {
         return em.createQuery("SELECT j FROM Jugador j").getResultList();
     }
 
+    /***Metodo para agregar torneos a la BD*/
     private static void addTournaments() {
         Torneo t = null;
         System.out.print("Cargando Torneos .....................");
@@ -67,20 +69,25 @@ public class Insert {
 
     }
 
-    private static Torneo getRandomTournament(){
+    /***Metodo para retornar un torneo random de la BD*/
+    private static Torneo getRandomTorneo() {
         String query = Torneo.BUSCAR_TODOS;
         Query query1 = em.createNamedQuery(query);
         List<Torneo> tournaments = (List<Torneo>) query1.getResultList();
         return (Torneo) getRandomObjetc(tournaments);
     }
 
-    public static DirectorTecnico getCoachById(int id){
+    /***Metodo para retornar un DirectorTecnico segun un id*/
+    public static DirectorTecnico getCoachById(int id) {
         return em.find(DirectorTecnico.class, id);
     }
-    public static Torneo getTournamentById(int id){
+
+    /***Metodo para retornar un torneo segun un id*/
+    public static Torneo getTournamentById(int id) {
         return em.find(Torneo.class, id);
     }
 
+    /***Metodo para agregar equipos a la BD*/
     private static void addTeams() {
         Equipo e = null;
         List<Jugador> titulares, suplentes = new ArrayList<>();
@@ -93,16 +100,16 @@ public class Insert {
             titulares = getTitularPlayers();
             suplentes = getSubstitutePlayers();
             dt.setEquipo(e);
-            e = new Equipo(row.get("nombre"),row.get("publicidad"),dt);
+            e = new Equipo(row.get("nombre"), row.get("publicidad"), dt);
             e.setSuplentes(suplentes);
             e.setJugadores(titulares);
             t.addEquipo(e);
             em.merge(e);
-            for (Jugador j : titulares){
+            for (Jugador j : titulares) {
                 j.setEquipo(e);
                 em.merge(j);
             }
-            for (Jugador j : suplentes){
+            for (Jugador j : suplentes) {
                 j.setEquipo(e);
                 em.merge(j);
             }
@@ -110,7 +117,7 @@ public class Insert {
         }
     }
 
-    private static DirectorTecnico getFirstAvailableDT(){
+    private static DirectorTecnico getFirstAvailableDT() {
         String queryString = "SELECT j FROM DirectorTecnico j WHERE j.equipo IS NULL";
         Query query = em.createQuery(queryString);
         query.setMaxResults(1); // Establece el límite en 1
@@ -118,12 +125,9 @@ public class Insert {
         return dt;
     }
 
-    private static Torneo getRandomTorneo(){
-        List<Torneo> torneos =em.createQuery("SELECT t FROM Torneo t").getResultList();
-        return (Torneo) getRandomObjetc(torneos);
-    }
 
-    private static List<Jugador> getTitularPlayers(){
+    /***Metodo para retornar una lista de jugadores titulares random segun las reglas del torneo*/
+    private static List<Jugador> getTitularPlayers() {
         List<Jugador> players, titulars = new ArrayList<>();
         String query = Jugador.BUSCAR_TODOS_SIN_CLUB;
         Query query1 = em.createNamedQuery(query);
@@ -131,35 +135,38 @@ public class Insert {
         Jugador goalkeeper = getFirstPlayerWithoutAJob();
         titulars.add(goalkeeper);
         Iterator<Jugador> itPlayers = players.iterator();
-        while (itPlayers.hasNext() && titulars.size() < MAX_TITULARS_PLAYERS){
+        while (itPlayers.hasNext() && titulars.size() < MAX_TITULARS_PLAYERS) {
             Jugador j = itPlayers.next();
-            if(!j.getPosicion().getTipo().equals(Posicion.TIPO_ARQUERO)){
+            if (!j.getPosicion().getTipo().equals(Posicion.TIPO_ARQUERO)) {
                 titulars.add(j);
             }
         }
         return titulars;
     }
 
-    private static List<Jugador> getSubstitutePlayers(){
+    /***Metodo para retornar una lista de jugadores suplentes random segun las reglas del torneo*/
+    private static List<Jugador> getSubstitutePlayers() {
         List<Jugador> players, substitute = new ArrayList<>();
         String query = Jugador.BUSCAR_TODOS_SIN_CLUB;
         Query query1 = em.createNamedQuery(query);
         players = query1.getResultList();
         Iterator<Jugador> itPlayers = players.iterator();
-        while (itPlayers.hasNext() && substitute.size() < MAX_SUBSTITUTE_PLAYERS){
+        while (itPlayers.hasNext() && substitute.size() < MAX_SUBSTITUTE_PLAYERS) {
             Jugador j = itPlayers.next();
-            if(!j.getPosicion().getTipo().equals(Posicion.TIPO_ARQUERO)){
+            if (!j.getPosicion().getTipo().equals(Posicion.TIPO_ARQUERO)) {
                 substitute.add(j);
             }
         }
         return substitute;
     }
 
+    /***Metodo para retornar un objeto random de una coleccion que recibe por parametro */
     private static Object getRandomObjetc(List<?> l) {
         Random rand = new Random();
         return l.get(rand.nextInt(l.size()));
     }
 
+    /***Metodo para retornar el primer jugador sin club*/
     private static Jugador getFirstPlayerWithoutAJob() {
         String queryString = Jugador.OBTENER_PRIMER_ARQUERO_SIN_CLUB;
         Query query = em.createQuery(queryString);
@@ -168,6 +175,7 @@ public class Insert {
         return player;
     }
 
+    /***Metodo para retornar el primer tecnico sin club*/
     private static DirectorTecnico getFirstCoachWithoutAJob() {
         String queryString = DirectorTecnico.OBTENER_PRIMER_TECNICO_SIN_CLUB;
         Query query = em.createQuery(queryString);
@@ -176,13 +184,14 @@ public class Insert {
         return coach;
     }
 
+    /***Metodo para agregar posiciones disponibles para los jugadores */
     private static void addPositions() {
         Posicion p = null;
         System.out.print("Cargando posiciones .....................");
         CSVParser parser = getCSVParser(POSITION_FILE);
         int i = 0;
         for (CSVRecord row : parser) {
-            p = new Posicion(i,row.get("tipo"));
+            p = new Posicion(i, row.get("tipo"));
             i++;
             em.persist(p);
             System.out.print(".");
@@ -191,10 +200,12 @@ public class Insert {
 
     }
 
+    /***Metodo para retornar una posicion de la BD segun el id*/
     private static Posicion getPositionById(int i) {
         return (Posicion) em.find(Posicion.class, i);
     }
 
+    /***Metodo para agregar jugadores a la BD*/
     private static void addPlayers() {
         Jugador j = null;
         Posicion p = null;
@@ -206,12 +217,15 @@ public class Insert {
             j = new Jugador(row.get("nombre"), Integer.parseInt(row.get("edad")), p);
             System.out.println(j);
             em.persist(j);
+            p.addJugador(j);
+            em.merge(p);
             System.out.print(".");
         }
         System.out.print(" .....................PROCESO FINALIZADO \n");
 
     }
 
+    /***Metodo para agregar Tecnicos a la BD*/
     private static void addCoach() {
         DirectorTecnico dt = null;
         System.out.print("Cargando DTs .....................");
@@ -225,6 +239,7 @@ public class Insert {
 
     }
 
+    /***Metodo para retornar un CSVPARSER segun un archivo recibido por parametro*/
     private static CSVParser getCSVParser(String file) {
         CSVParser p = null;
         try {
