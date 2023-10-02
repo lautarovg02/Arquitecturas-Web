@@ -39,10 +39,21 @@ public class Select {
         String name = "Boca juniors";
         showPlayersOfTeamByName(name);
 
+        //SHOW PLAYERS OF TOURNAMENT
+        showPlayerOfTournamentById(156);
         // CLOSE
         em.getTransaction().commit();
         em.close();
         emf.close();
+    }
+
+    private static void showPlayerOfTournamentById(int i) {
+        String queryString = Torneo.BUSCAR_TODOS_LOS_JUGADORES_DE_UN_TORNEO ;
+        Query query = em.createNamedQuery(queryString);
+        query.setParameter(1, i);
+
+        List results = query.getResultList();
+        results.forEach(System.out::println);
     }
 
     /***Metodo para mostrar los jugadores de la BD*/

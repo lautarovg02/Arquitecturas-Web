@@ -5,14 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NamedQuery( name = Torneo.BUSCAR_TODOS, query = "SELECT t FROM Torneo t ")
+@NamedQuery( name = Torneo.BUSCAR_TODOS,
+        query = "SELECT t FROM Torneo t "
+)
+@NamedQuery( name = Torneo.BUSCAR_TODOS_LOS_JUGADORES_DE_UN_TORNEO,
+        query = "SELECT j FROM Torneo t JOIN t.equipos e JOIN e.jugadores j WHERE t.id = ?1"
+)
+
 public class Torneo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String nombre;
-    public static final String BUSCAR_TODOS = "Torneo.BUSCAR_TODOS";
+    public static final String BUSCAR_TODOS = "Torneo.BUSCAR_TODOS", BUSCAR_TODOS_LOS_JUGADORES_DE_UN_TORNEO = "Torneo.BUSCAR_TODOS_LOS_JUGADORES_DE_UN_TORNEO";
 
     @Column(name = "clasificados")
     @ManyToMany( fetch = FetchType.LAZY)
