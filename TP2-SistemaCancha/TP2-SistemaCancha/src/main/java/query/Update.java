@@ -35,6 +35,7 @@ public class Update {
         emf.close();
     }
 
+    /*** Método para actualizar el nombre de un equipo por ID*/
     private static void updateTeamById(int id, String name) {
         Equipo e =  em.find(Equipo.class, id);
 
@@ -59,6 +60,7 @@ public class Update {
 
         System.out.println("Resultado : " + dt);
     }
+
 
 
 }
