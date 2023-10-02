@@ -28,29 +28,30 @@ public class Insert {
         em.getTransaction().begin();
 
         //ADDING POSITIONS
-        addPositions();
+//        addPositions();
         List<Posicion> positions = em.createQuery("SELECT p FROM Posicion p").getResultList();
         positions.forEach(System.out::println);
 
         //ADDING COACH
-        addCoach();
+//        addCoach();
         List<DirectorTecnico> coachs = em.createQuery("SELECT d FROM DirectorTecnico d").getResultList();
         coachs.forEach(System.out::println);
 
         //ADDING PLAYERS
-        addPlayers();
+//        addPlayers();
         List<Jugador> players = em.createQuery("SELECT j FROM Jugador j").getResultList();
         players.forEach(System.out::println);
 
         //ADDING TOURNAMENT
-        addTournaments();
+//        addTournaments();
         List<Torneo> tournaments = em.createQuery("SELECT t FROM Torneo t").getResultList();
         tournaments.forEach(System.out::println);
 
         //ADDING TEAMS
-        addTeams();
+//        addTeams();
         List<Equipo> equipos = em.createQuery("SELECT p FROM Equipo p").getResultList();
         equipos.forEach(System.out::println);
+//        System.out.println(getRandomTorneo());
 
         // CLOSE
         em.getTransaction().commit();
@@ -95,12 +96,14 @@ public class Insert {
         DirectorTecnico dt = null;
         CSVParser parser = getCSVParser(TEAMS_FILE);
         for (CSVRecord row : parser) {
-            dt = getCoachById(Integer.parseInt(row.get("directorTecnico_id")));
-            t = getTournamentById(Integer.parseInt(row.get("torneo_id")));
+            dt = getFirstAvailableDT();
+            t = getRandomTorneo();
             titulares = getTitularPlayers();
             suplentes = getSubstitutePlayers();
             dt.setEquipo(e);
             e = new Equipo(row.get("nombre"),row.get("publicidad"),dt);
+            e.setSuplentes(suplentes);
+            e.setJugadores(titulares);
             t.addEquipo(e);
             em.merge(e);
             for (Jugador j : titulares){
@@ -112,8 +115,20 @@ public class Insert {
                 em.merge(j);
             }
             em.persist(e);
-
         }
+    }
+
+    private static DirectorTecnico getFirstAvailableDT(){
+        String queryString = "SELECT j FROM DirectorTecnico j WHERE j.equipo IS NULL";
+        Query query = em.createQuery(queryString);
+        query.setMaxResults(1); // Establece el límite en 1
+        DirectorTecnico dt = (DirectorTecnico) query.getSingleResult();
+        return dt;
+    }
+
+    private static Torneo getRandomTorneo(){
+        List<Torneo> torneos =em.createQuery("SELECT t FROM Torneo t").getResultList();
+        return (Torneo) getRandomObjetc(torneos);
     }
 
     private static List<Jugador> getTitularPlayers(){
@@ -176,6 +191,7 @@ public class Insert {
         int i = 0;
         for (CSVRecord row : parser) {
             p = new Posicion(i,row.get("tipo"));
+            i++;
             em.persist(p);
             System.out.print(".");
         }

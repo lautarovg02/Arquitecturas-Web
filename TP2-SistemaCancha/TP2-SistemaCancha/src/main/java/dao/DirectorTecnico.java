@@ -45,7 +45,14 @@ public class DirectorTecnico extends Persona {
                 "nombre='" + super.getNombre() + '\'' +
                 "edad='" + super.getEdad() + '\'' +
                 "estrategia='" + estrategia + '\'' +
-                ", equipo=" + equipo +
+                ", equipo=" + this.getNombreEquipo() +
                 '}';
+    }
+
+    private String getNombreEquipo() {
+        if(this.equipo != null)
+            return this.equipo.getNombre();
+        else
+            return "null";
     }
 }

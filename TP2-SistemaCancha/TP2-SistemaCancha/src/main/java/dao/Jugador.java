@@ -43,8 +43,15 @@ public class Jugador extends Persona {
                 "nombre='" + super.getNombre() + '\'' +
                 ", edad='" + super.getEdad() + '\'' +
                 ", posicion=" + posicion.getTipo() +
-                ", equipo=" + equipo +
+                ", equipo=" + this.getNombreEquipo() +
                 "} ";
+    }
+
+    private String getNombreEquipo() {
+        if(this.equipo != null)
+            return this.equipo.getNombre();
+        else
+            return "null";
     }
 
 }

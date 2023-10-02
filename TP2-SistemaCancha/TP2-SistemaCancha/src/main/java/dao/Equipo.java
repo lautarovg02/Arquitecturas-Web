@@ -84,9 +84,26 @@ public class Equipo {
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", publicidad='" + publicidad + '\'' +
-                ", directorTecnico=" + directorTecnico +
-                ", jugadores=" + jugadores +
-                ", suplentes=" + suplentes +
+                ", directorTecnico=" + directorTecnico.getNombre() +
+                ", jugadores=" + listaToString(jugadores) +
+                ", suplentes=" + listaToString(suplentes) +
                 '}';
+    }
+
+    private String listaToString(List<?> lista) {
+        if (lista == null) {
+            return "null";
+        }
+
+        StringBuilder result = new StringBuilder("[");
+        for (int i = 0; i < lista.size(); i++) {
+            result.append(lista.get(i).toString());
+            if (i < lista.size() - 1) {
+                result.append(", ");
+            }
+        }
+        result.append("]");
+
+        return result.toString();
     }
 }
