@@ -1,4 +1,4 @@
-package dao;
+package model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
