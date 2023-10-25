@@ -11,7 +11,7 @@ import java.util.List;
 public class Persona {
     //esta persona va a tener un id
     @Id
-    private int id;
+    private Long id;
     //Marcamos las columnas de la BD
     /*
      *Le indicamos que no puede ser nulleable */
@@ -22,6 +22,10 @@ public class Persona {
      */
     @Column(name = "anios")
     private int edad;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     /*
      *Indicamos en la relacion que muchas personas puedan vivir en un mismo domicilio pero no puede vivir en dos lugares distitnos
@@ -34,20 +38,20 @@ public class Persona {
     public static final String BUSCAR_TODAS = "Persona.buscarTodas";
     public static final String BUSCAR_POR_ID = "Persona.buscarPorId";
 
-    public Persona(int id, String nombre, int edad, Direccion domicilio) {
+    public Persona(Long id, String nombre, int edad, Direccion domicilio) {
         this.id = id;
         this.nombre = nombre;
         this.edad = edad;
         this.domicilio = domicilio;
     }
 
-    public Persona(int id, String nombre, int edad) {
+    public Persona(Long id, String nombre, int edad) {
         this.id = id;
         this.nombre = nombre;
         this.edad = edad;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
