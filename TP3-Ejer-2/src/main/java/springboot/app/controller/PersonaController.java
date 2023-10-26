@@ -26,12 +26,13 @@ public class PersonaController {
         }
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<?>findById(@PathVariable Long id){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(personaServicio.findById(id));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: La persona que busca en la bd no existe");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
     }
 
@@ -40,18 +41,31 @@ public class PersonaController {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(personaServicio.findAllByEdad(edad));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: Intentalo mas tarde ");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
     }
+
 
     @PostMapping("")
     public ResponseEntity<?> save(@RequestBody Persona entity){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(personaServicio.save(entity));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo ingresar, revise los campos e intente nuevamente.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
     }
 
-
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        try {
+            if (personaServicio.findById(id) != null) {
+                personaServicio.delete(id);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Eliminado con Éxito.");
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error. Dirección no encontrada.");
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
+        }
+    }
 }

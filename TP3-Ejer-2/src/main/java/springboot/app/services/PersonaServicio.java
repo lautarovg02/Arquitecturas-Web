@@ -67,4 +67,8 @@ public class PersonaServicio {
             throw new Exception(e.getMessage());
         }
     }
+
+    public void delete(Long id) {
+        personaRepository.deleteById(id);
+    }
 }

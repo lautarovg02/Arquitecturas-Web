@@ -8,10 +8,11 @@ import java.util.Optional;
 
 public interface PersonaRepository extends JpaRepository<Persona,Long> {
 
-    public List<Persona> findAll();
-    public Optional<Persona> findById(Long id);
+     List<Persona> findAll();
+     Optional<Persona> findById(Long id);
 
-    public List<Persona> findAllByEdad(int edad);
+     List<Persona> findAllByEdad(int edad);
 
 
+    void deleteById(Long id);
 }

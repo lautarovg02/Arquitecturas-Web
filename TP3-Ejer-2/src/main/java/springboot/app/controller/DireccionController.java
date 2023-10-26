@@ -25,7 +25,7 @@ public class DireccionController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.save(entity));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: Intentelo mas tarde");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
     }
 
@@ -34,7 +34,7 @@ public class DireccionController {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.getDirecciones());
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
     }
 
@@ -43,7 +43,7 @@ public class DireccionController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.findById(id));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
     }
 
@@ -52,7 +52,7 @@ public class DireccionController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.findAllByCiudad(ciudad));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
     }
 
@@ -61,7 +61,7 @@ public class DireccionController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.update(id,direccion));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
     }
 
