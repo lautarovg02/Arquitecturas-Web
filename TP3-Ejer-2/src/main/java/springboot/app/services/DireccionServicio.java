@@ -14,23 +14,24 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("DireccionServicio")
-public class  DireccionServicio {
+public class DireccionServicio {
     @Autowired
     private DireccionRepository direccionRepository;
 
     @Transactional
-    public List<DireccionDTO> getDirecciones()throws Exception{
+    public List<DireccionDTO> getDirecciones() throws Exception {
 
         var resultado = direccionRepository.findAll();
-        try{
-            return resultado.stream().map(direccion->new DireccionDTO(direccion.getId(),direccion.getCiudad(),direccion.getCalle())).collect(Collectors.toList());
-        }catch (Exception e){
+        try {
+            return resultado.stream().map(direccion -> new DireccionDTO(direccion.getId(), direccion.getCiudad(), direccion.getCalle())).collect(Collectors.toList());
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
+    @Transactional
     public List<Direccion> findAll() throws Exception {
-       return direccionRepository.findAll();
+        return direccionRepository.findAll();
     }
 
     @Transactional
@@ -43,6 +44,14 @@ public class  DireccionServicio {
         }
     }
 
+    @Transactional
+    public Direccion save(Direccion entity) throws Exception {
+        try {
+            return direccionRepository.save(entity);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
 
     @Transactional
     public Direccion findById(Long id) throws Exception {
@@ -54,9 +63,6 @@ public class  DireccionServicio {
         }
     }
 
-    public Direccion save(Direccion entity) throws Exception {
-        return direccionRepository.save(entity);
-    }
 
     @Transactional
     public Direccion update(Long id, Direccion nuevaDireccion) throws Exception {
@@ -80,8 +86,6 @@ public class  DireccionServicio {
     }
 
     public void delete(Long id) throws Exception {
-
-       direccionRepository.deleteById(id);
-
+        direccionRepository.deleteById(id);
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springboot.app.model.Direccion;
+import springboot.app.model.Persona;
 import springboot.app.services.DireccionServicio;
 
 import java.util.Optional;
@@ -17,6 +18,15 @@ public class DireccionController {
     private DireccionServicio direccionServicio;
 
     public DireccionController() {
+    }
+
+    @PostMapping("")
+    public ResponseEntity<?> save(@RequestBody Direccion entity) throws Exception {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.save(entity));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: Intentelo mas tarde");
+        }
     }
 
     @GetMapping("")
