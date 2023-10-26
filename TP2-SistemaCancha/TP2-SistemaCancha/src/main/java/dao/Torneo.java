@@ -11,7 +11,6 @@ import java.util.List;
 @NamedQuery( name = Torneo.BUSCAR_TODOS_LOS_JUGADORES_DE_UN_TORNEO,
         query = "SELECT j FROM Torneo t JOIN t.equipos e JOIN e.jugadores j WHERE t.id = ?1"
 )
-
 public class Torneo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

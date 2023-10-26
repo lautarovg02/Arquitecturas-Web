@@ -29,23 +29,23 @@ public class Insert {
         em.getTransaction().begin();
 
         // ADDING ADDRESS
-        // addAddreses();
+//         addAddreses();
 //        @SuppressWarnings("unchecked")
-//        List<Direccion> addreses = em.createQuery("SELECT d FROM Direccion d").getResultList();
-//        addreses.forEach(System.out::println);
+        List<Direccion> addreses = em.createQuery("SELECT d FROM Direccion d").getResultList();
+        addreses.forEach(System.out::println);
 
-        // ADDING PEOPLE
-        // addPeople(addreses);
-//        List<Persona> personas = em.createQuery("SELECT p FROM Persona p").getResultList();
-//        personas.forEach(System.out::println);
+//         ADDING PEOPLE
+         addPeople(addreses);
+        List<Persona> personas = em.createQuery("SELECT p FROM Persona p").getResultList();
+        personas.forEach(System.out::println);
 
-        // ADDING PARTNER
-        // addPartners(personas);
-//        List<Socio> socios = em.createQuery("SELECT s FROM Socio s ").getResultList();
-//        socios.forEach(System.out::println);
+//         ADDING PARTNER
+         addPartners(personas);
+        List<Socio> socios = em.createQuery("SELECT s FROM Socio s ").getResultList();
+        socios.forEach(System.out::println);
 
-        // ADDING TURNS
-        //addTurns(personas);
+//         ADDING TURNS
+        addTurns(personas);
 
         // SEND TRANSACTION
         em.getTransaction().commit();
