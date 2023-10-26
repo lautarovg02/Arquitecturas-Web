@@ -28,6 +28,10 @@ public class PersonaServicio {
         }
     }
 
+    public boolean existById(Long id) {
+        return personaRepository.existsById(id);
+    }
+
     @Transactional
     public PersonaDTO findById(Long id) throws Exception {
         try {
@@ -60,9 +64,14 @@ public class PersonaServicio {
     }
 
     @Transactional
-    public Persona save(Persona entity) throws Exception {
+    public PersonaDTO save(Persona entity) throws Exception {
         try {
-            return personaRepository.save(entity);
+                Persona persona = personaRepository.save(entity);
+                PersonaDTO personaDTO = new PersonaDTO();
+                personaDTO.setEdad(persona.getEdad());
+                personaDTO.setId(persona.getId());
+                personaDTO.setNombre(persona.getNombre());
+                return personaDTO;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -70,5 +79,32 @@ public class PersonaServicio {
 
     public void delete(Long id) {
         personaRepository.deleteById(id);
+    }
+
+    @Transactional
+    public PersonaDTO update(Long id, Persona nuevaPersona) throws Exception {
+        Optional<Persona> optionalPersona = personaRepository.findById(id);
+        try {
+            Persona personaActual = optionalPersona.get();
+            personaActual.setEdad(nuevaPersona.getEdad());
+            personaActual.setId(nuevaPersona.getId());
+            personaActual.setNombre(nuevaPersona.getNombre());
+
+            Persona persona = personaRepository.save(personaActual);
+
+            PersonaDTO personaDTO = new PersonaDTO();
+            personaDTO.setEdad(persona.getEdad());
+            personaDTO.setId(persona.getId());
+            personaDTO.setNombre(persona.getNombre());
+
+            return personaDTO;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
+    }
+
+    public boolean existByNameAndEdad(Persona persona){
+        return personaRepository.existsByNombreAndEdad(persona.getNombre(), persona.getEdad());
     }
 }

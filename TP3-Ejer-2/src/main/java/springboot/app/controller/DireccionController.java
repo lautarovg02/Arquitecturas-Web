@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springboot.app.dtos.DireccionDTO;
 import springboot.app.model.Direccion;
-import springboot.app.model.Persona;
 import springboot.app.services.DireccionServicio;
-
-import java.util.Optional;
 
 
 @RestController
@@ -21,9 +19,16 @@ public class DireccionController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> save(@RequestBody Direccion entity) throws Exception {
+    public ResponseEntity<?> save(@RequestBody DireccionDTO direccionDTO) throws Exception {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.save(entity));
+            Direccion direccion = new Direccion();
+            direccion.setCalle(direccionDTO.getCalle());
+            direccion.setCiudad(direccionDTO.getCiudad());
+            if(!direccionServicio.existsByCalleAndCiudad(direccion)){
+                return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.save(direccion));
+            }else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Ya existe esta la direccion.");
+            }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
@@ -41,7 +46,11 @@ public class DireccionController {
     @GetMapping("/{id}")
     public ResponseEntity<?>findById(@PathVariable Long id){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.findById(id));
+            if(direccionServicio.existById(id)){
+                return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.findById(id));
+            }else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. no existe la direccion que busca");
+            }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
@@ -57,9 +66,16 @@ public class DireccionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody Direccion direccion){
+    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody DireccionDTO direccionDTO){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.update(id,direccion));
+            if (!direccionServicio.existById(id)) {
+                Direccion direccion = new Direccion();
+                direccion.setCalle(direccionDTO.getCalle());
+                direccion.setCiudad(direccionDTO.getCiudad());
+                return ResponseEntity.status(HttpStatus.OK).body(direccionServicio.update(id, direccion));
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error. Dirección no encontrada.");
+            }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error. Por favor, inténtelo más tarde.");
         }
@@ -68,7 +84,7 @@ public class DireccionController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         try {
-            if (direccionServicio.findById(id) != null) {
+            if (!direccionServicio.existById(id)) {
                 direccionServicio.delete(id);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Eliminado con Éxito.");
             } else {

@@ -18,4 +18,5 @@ public interface DireccionRepository extends JpaRepository<Direccion,Long> {
 
      void deleteById(Long id);
 
+     boolean existsByCalleAndCiudad(String calle, String ciudad);
 }

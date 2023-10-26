@@ -19,7 +19,7 @@ public class ArquiTp3Ejer2Application {
 
 	@PostConstruct
 	public void init() throws IOException {
-		cargaDeDatos.cargarDatosDesdeCSV();
+//		cargaDeDatos.cargarDatosDesdeCSV();
 	}
 
 }
