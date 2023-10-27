@@ -1,9 +1,12 @@
 package springboot.app.model;
 
 import jakarta.persistence.*;
+import springboot.app.dtos.DireccionDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 /*
  *Vamos a decirle que esta clase es una tabla con la palabara @entity*/
@@ -22,34 +25,6 @@ public class Persona {
      */
     @Column(name = "anios")
     private int edad;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /*
-     *Indicamos en la relacion que muchas personas puedan vivir en un mismo domicilio pero no puede vivir en dos lugares distitnos
-     */
-    @ManyToOne
-    private Direccion domicilio;
-
-    @ManyToMany(mappedBy = "jugadores", fetch = FetchType.LAZY)
-    private List<Turno> turnos;
-    public static final String BUSCAR_TODAS = "Persona.buscarTodas";
-    public static final String BUSCAR_POR_ID = "Persona.buscarPorId";
-
-    public Persona(Long id, String nombre, int edad, Direccion domicilio) {
-        this.id = id;
-        this.nombre = nombre;
-        this.edad = edad;
-        this.domicilio = domicilio;
-    }
-
-    public Persona(Long id, String nombre, int edad) {
-        this.id = id;
-        this.nombre = nombre;
-        this.edad = edad;
-    }
 
     public Long getId() {
         return id;
@@ -77,6 +52,34 @@ public class Persona {
 
     public void setDomicilio(Direccion domicilio) {
         this.domicilio = domicilio;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /*
+     *Indicamos en la relacion que muchas personas puedan vivir en un mismo domicilio pero no puede vivir en dos lugares distitnos
+     */
+    @ManyToOne
+    private Direccion domicilio;
+
+    @ManyToMany(mappedBy = "jugadores", fetch = FetchType.LAZY)
+    private List<Turno> turnos;
+    public static final String BUSCAR_TODAS = "Persona.buscarTodas";
+    public static final String BUSCAR_POR_ID = "Persona.buscarPorId";
+
+    public Persona(Long id, String nombre, int edad, Direccion domicilio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.edad = edad;
+        this.domicilio = domicilio;
+    }
+
+    public Persona(Long id, String nombre, int edad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.edad = edad;
     }
 
     public Persona() {

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springboot.app.dtos.DireccionDTO;
 import springboot.app.dtos.PersonaDTO;
 import springboot.app.model.Persona;
 import springboot.app.services.PersonaServicio;
@@ -66,10 +67,12 @@ public class PersonaController {
 
 
     @PostMapping("")
-    public ResponseEntity<?> save(@RequestBody Persona persona) {
+    public ResponseEntity<?> save(@RequestBody PersonaDTO personaDTO) {
         try {
-            if(personaServicio.existByNameAndEdad(persona)) {
-                return ResponseEntity.status(HttpStatus.OK).body(personaServicio.save(persona));
+            Persona persona = new Persona(personaDTO.getId(), personaDTO.getNombre(), personaDTO.getEdad());
+
+            if(!personaServicio.existByNameAndEdad(persona)) {
+                return ResponseEntity.status(HttpStatus.OK).body(personaServicio.save(personaDTO));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: esta persona ya existe .");
             }

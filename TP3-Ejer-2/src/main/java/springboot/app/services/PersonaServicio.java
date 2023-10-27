@@ -5,8 +5,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import springboot.app.dtos.DireccionDTO;
 import springboot.app.dtos.PersonaDTO;
+import springboot.app.model.Direccion;
 import springboot.app.model.Persona;
+import springboot.app.repository.DireccionRepository;
 import springboot.app.repository.PersonaRepository;
 
 import java.util.List;
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
 public class PersonaServicio {
     @Autowired
     private PersonaRepository personaRepository;
+    @Autowired
+    private DireccionRepository direccionRepository;
 
     @Transactional
     public List<PersonaDTO> getPersonas() throws Exception {
@@ -64,14 +69,28 @@ public class PersonaServicio {
     }
 
     @Transactional
-    public PersonaDTO save(Persona entity) throws Exception {
+    public PersonaDTO save(PersonaDTO personaDTO) throws Exception {
         try {
-                Persona persona = personaRepository.save(entity);
-                PersonaDTO personaDTO = new PersonaDTO();
-                personaDTO.setEdad(persona.getEdad());
-                personaDTO.setId(persona.getId());
-                personaDTO.setNombre(persona.getNombre());
-                return personaDTO;
+            DireccionDTO direccionDTO = new DireccionDTO(personaDTO.getDomicilio(),personaDTO.getCiudad());
+            if (!direccionRepository.existsByCalleAndCiudad(direccionDTO.getCalle(), direccionDTO.getCiudad())) {
+
+                Direccion direccion = new Direccion(direccionDTO.getCiudad(), direccionDTO.getCalle());
+                Direccion direccionBefore = direccionRepository.save(direccion);
+
+                Persona persona = new Persona(personaDTO.getId(), personaDTO.getNombre(), personaDTO.getEdad());
+                persona.setDomicilio(direccionBefore);
+
+                Persona personaBefore = personaRepository.save(persona);
+
+                return new PersonaDTO(personaBefore.getId(), personaBefore.getNombre(), personaBefore.getEdad(), direccionBefore.getCalle(), direccionBefore.getCiudad());
+            } else {
+                Direccion direccion = new Direccion(direccionDTO.getCiudad(), direccionDTO.getCalle());
+                Persona persona = new Persona(personaDTO.getId(), personaDTO.getNombre(), personaDTO.getEdad());
+                persona.setDomicilio(direccion);
+                Persona personaBefore = personaRepository.save(persona);
+                return new PersonaDTO(personaBefore.getId(), personaBefore.getNombre(), personaBefore.getEdad(), direccion.getCalle(), direccion.getCiudad());
+            }
+
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -104,7 +123,7 @@ public class PersonaServicio {
 
     }
 
-    public boolean existByNameAndEdad(Persona persona){
+    public boolean existByNameAndEdad(Persona persona) {
         return personaRepository.existsByNombreAndEdad(persona.getNombre(), persona.getEdad());
     }
 }

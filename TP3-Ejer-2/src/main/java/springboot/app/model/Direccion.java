@@ -19,8 +19,8 @@ public class Direccion {
      *Una direccion puede ir con multiples personas.
      *Todas las relaciones q se mapean a listo tienen un Fetchtype.lazy
      * Hasta que no pidamso algo relacionado con esta list, no se va a hacer el FECTH pq es muy costosos */
-    //@OneToMany(mappedBy = "domicilio", fetch = FetchType.LAZY)
-   // private List<Persona> habitantes;
+    @OneToMany(mappedBy = "domicilio", fetch = FetchType.LAZY)
+    private List<Persona> habitantes;
     public static final String OBTENER_PERSONAS_DE_UNA_CIUDAD = "Direccion.OBTENER_PERSONAS_DE_UNA_CIUDAD";
 
 

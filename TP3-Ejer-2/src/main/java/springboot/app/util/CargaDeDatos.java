@@ -7,6 +7,7 @@ import org.springframework.util.ResourceUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import springboot.app.dtos.DireccionDTO;
 import springboot.app.model.Direccion;
 import springboot.app.model.Persona;
 import springboot.app.repository.DireccionRepository;
@@ -26,9 +27,9 @@ public class CargaDeDatos {
     private final PersonaRepository personaRepository;
 
     @Autowired
-    public CargaDeDatos(DireccionRepository direccionRepository, PersonaRepository personaRepository, PersonaRepository personaRepository1) {
+    public CargaDeDatos(DireccionRepository direccionRepository, PersonaRepository personaRepository) {
         this.direccionRepository = direccionRepository;
-        this.personaRepository = personaRepository1;
+        this.personaRepository = personaRepository;
     }
 
     public void cargarDatosDesdeCSV() throws IOException {
