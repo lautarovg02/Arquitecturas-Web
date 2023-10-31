@@ -15,21 +15,29 @@ public class SocioController {
     private SocioServicio socioServicio;
 
     @GetMapping("")
-    public ResponseEntity<?> getSocios(){
+    public ResponseEntity<?> getSocios() {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(socioServicio.getSocios());
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Intente mas tarde");
         }
     }
 
     @GetMapping("/{tipo}")
-    public ResponseEntity<?> getSociosByTipo(@PathVariable String tipo){
+    public ResponseEntity<?> getSociosByTipo(@PathVariable String tipo) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(socioServicio.getSociosByTipo(tipo));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Intente mas tarde");
         }
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteSocioById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(socioServicio.deleteById(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Intente mas tarde");
+        }
+    }
 }

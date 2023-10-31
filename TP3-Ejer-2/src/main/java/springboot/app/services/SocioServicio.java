@@ -34,4 +34,16 @@ public class SocioServicio {
             throw new Exception(e.getMessage());
         }
     }
+
+    public boolean deleteById(Long id) throws Exception {
+        try {
+         if(socioRepository.existsById(id)){
+             socioRepository.deleteById(id);
+             return !socioRepository.existsById(id);
+         }else
+             return false;
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
 }

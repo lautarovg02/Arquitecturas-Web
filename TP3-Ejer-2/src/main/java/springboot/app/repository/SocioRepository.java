@@ -10,6 +10,6 @@ import java.util.List;
 public interface SocioRepository extends JpaRepository<Socio,Long> {
 
     List<Socio> findAll();
-
+    boolean existsById(Long id);
     List<Socio> findAllByTipo(String tipo);
 }
