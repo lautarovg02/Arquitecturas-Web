@@ -24,4 +24,14 @@ public class SocioServicio {
              throw new Exception(e.getMessage());
         }
     }
+
+
+    public List<SocioDTO> getSociosByTipo(String tipo) throws Exception {
+        var resultado = socioRepository.findAllByTipo(tipo);
+        try {
+            return resultado.stream().map(socio -> new SocioDTO(socio.getPersona().getId(),socio.getTipo(),socio.getPersona().getNombre(),socio.getPersona().getEdad())).collect(Collectors.toList());
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
 }
