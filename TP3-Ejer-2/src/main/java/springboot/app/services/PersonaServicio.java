@@ -90,7 +90,6 @@ public class PersonaServicio {
                 Persona personaBefore = personaRepository.save(persona);
                 return new PersonaDTO(personaBefore.getId(), personaBefore.getNombre(), personaBefore.getEdad(), direccion.getCalle(), direccion.getCiudad());
             }
-
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
